@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        .calender {
+            margin: 50px auto;
+            box-shadow: 0 0 4px rgba(0, 0, 0, 0.10), 0 4px 8px rgba(0, 0, 0, 0.10);
+            border-left: 1px solid #e0e0df;
+            border-top: 1px solid #e0e0df;
+        }
+        
+        .day {
+            width: 50px;
+            display: inline-block;
+            font-family: sans-serif;
+            text-align: center;
+            padding: 10px 0;
+            border-right: 1px solid #e0e0df;
+            border-bottom: 1px solid #e0e0df;
+        }
+        
+        .day.active:hover {
+            background: #e0e0df;
+            cursor: pointer
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="calender" style="width:357px"></div>
+
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+
+    <script>
+        $(function($) {
+
+            function daysInThisMonth() {
+                var now     = new Date();
+                var c_year  = now.getFullYear();
+                var c_month = now.getMonth();
+                return new Date(c_year, c_month, 0).getDate();
+            }
+
+            var now        = new Date();
+            var firstDay   = new Date(now.getFullYear(), now.getMonth(), 1);
+            var d          = firstDay.toString().split(' ');
+            var start_day  = d[0];
+            var total_days = daysInThisMonth();
+
+            render_cal(total_days, start_day);
+
+            function render_cal(days, start_day) {
+
+                var cal = '';
+                var week_days = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+
+                for (let index = 0; index < week_days.length; index++) {
+                    const day = week_days[index];
+                    cal += '<span class="day">' + day + '</span>';
+                }
+
+                for (let index = 0; index < week_days.length; index++) {
+                    var week_day = week_days[index];
+                    if (week_day == start_day) {
+                        for (let index2 = 1; index2 < total_days; index2++) {
+                            cal += '<span class="day active">' + index2 + '</span>';
+                        }
+                        $('.calender').append(cal);
+                        break;
+                    } else {
+                        cal += '<span class="day">&nbsp;</span>';
+                    }
+                }
+            }
+
+        });
+    </script>
+</body>
+
+</html>
